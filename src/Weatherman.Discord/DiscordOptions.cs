@@ -7,5 +7,6 @@
         public string DiscordClientSecret { get; set; }
         public string DiscordBotName { get; set; }
         public string DiscordOwnerId { get; set; }
+        public string DefaultPrefix { get; set; }
     }
 }

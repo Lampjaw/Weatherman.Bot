@@ -48,7 +48,8 @@ namespace Weatherman.Discord
                 return;
 
             // the command failed, let's notify the user that something happened.
-            await context.Channel.SendMessageAsync($"error: {result.ErrorReason}");
+
+            await context.Channel.SendMessageAsync("Something went really wrong!");
         }
 
         private Task HandleLog(LogMessage log)

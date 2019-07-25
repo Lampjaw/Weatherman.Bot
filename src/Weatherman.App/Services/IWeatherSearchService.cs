@@ -8,5 +8,7 @@ namespace Weatherman.App.Services
     {
         Task<CurrentWeather> GetCurrentWeatherByLocationTextAsync(string location, WeatherClient weatherClient = WeatherClient.Yahoo, CancellationToken cancellationToken = default(CancellationToken));
         Task<ForecastWeather> GetForecastWeatherByLocationTextAsync(string location, WeatherClient weatherClient = WeatherClient.Yahoo, CancellationToken cancellationToken = default(CancellationToken));
+        Task<ForecastWeather> GetForecastWeatherByLocationTextAsync(GeoLocation location, WeatherClient weatherClient = WeatherClient.Yahoo, CancellationToken cancellationToken = default(CancellationToken));
+        Task<CurrentWeather> GetCurrentWeatherByLocationTextAsync(GeoLocation location, WeatherClient weatherClient = WeatherClient.Yahoo, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

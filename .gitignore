@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 
 docker-compose.dev.yml
+devsettings.json

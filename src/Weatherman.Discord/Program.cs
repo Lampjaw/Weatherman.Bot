@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 using Weatherman.App;
 using Weatherman.Data;
@@ -27,6 +28,15 @@ namespace Weatherman.Discord
                 })
                 .ConfigureLogging((hostingContext, logging) =>
                 {
+                    logging.AddFilter((category, logLevel) =>
+                    {
+                        if (category.StartsWith("Microsoft.EntityFramework") && logLevel <= LogLevel.Warning)
+                        {
+                            return false;
+                        }
+
+                        return true;
+                    });
                     logging.AddConsole();
                 });
 

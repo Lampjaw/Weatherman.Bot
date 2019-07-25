@@ -24,12 +24,13 @@ namespace Weatherman.App.Services
                 return null;
             }
 
-            var weather = await _weatherService.GetCurrentWeatherAsync(place.Coordinates, weatherClient, cancellationToken);
+            return await GetCurrentWeatherByLocationTextAsync(place, weatherClient, cancellationToken);
+        }
 
-            weather.Country = place.Country;
-            weather.Region = place.Region;
-            weather.City = place.City;
-
+        public async Task<CurrentWeather> GetCurrentWeatherByLocationTextAsync(GeoLocation location, WeatherClient weatherClient = WeatherClient.Yahoo, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var weather = await _weatherService.GetCurrentWeatherAsync(location.Coordinates, weatherClient, cancellationToken);
+            weather.Location = location;
             return weather;
         }
 
@@ -42,12 +43,13 @@ namespace Weatherman.App.Services
                 return null;
             }
 
-            var weather = await _weatherService.GetForecastWeatherAsync(place.Coordinates, weatherClient, cancellationToken);
+            return await GetForecastWeatherByLocationTextAsync(place, weatherClient, cancellationToken);
+        }
 
-            weather.Country = place.Country;
-            weather.Region = place.Region;
-            weather.City = place.City;
-
+        public async Task<ForecastWeather> GetForecastWeatherByLocationTextAsync(GeoLocation location, WeatherClient weatherClient = WeatherClient.Yahoo, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var weather = await _weatherService.GetForecastWeatherAsync(location.Coordinates, weatherClient, cancellationToken);
+            weather.Location = location;
             return weather;
         }
     }

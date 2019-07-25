@@ -19,6 +19,9 @@ namespace Weatherman.App
             services.AddSingleton<ILocationService, LocationService>();
             services.AddSingleton<IWeatherSearchService, WeatherSearchService>();
 
+            services.AddTransient<IUserManager, UserManager>();
+            services.AddTransient<IServerManager, ServerManager>();
+
             return services;
         }
     }

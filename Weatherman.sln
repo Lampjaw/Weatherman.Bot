@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		avatar.svg = avatar.svg
 		build.sh = build.sh
 		docker-compose.dev.yml = docker-compose.dev.yml
+		init-migrate.bat = init-migrate.bat
+		init-update.bat = init-update.bat
 		Weatherman-Discord.Dockerfile.debug = Weatherman-Discord.Dockerfile.debug
 	EndProjectSection
 EndProject

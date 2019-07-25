@@ -61,9 +61,6 @@ namespace Weatherman.App.Clients.YahooWeather
 
             return new ForecastWeather
             {
-                Country = result.Location.Country,
-                Region = result.Location.Region,
-                City = result.Location.City,
                 Forecast = forecasts
             };
         }
@@ -80,9 +77,6 @@ namespace Weatherman.App.Clients.YahooWeather
 
             return new CurrentWeather
             {
-                Country = result.Location.Country,
-                Region = result.Location.Region,
-                City = result.Location.City,
                 Condition = result.CurrentObservation.Condition.Text,
                 Temperature = temp,
                 Humidity = humidity,
