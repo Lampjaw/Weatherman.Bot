@@ -1,0 +1,23 @@
+version: '2'
+services:
+  weatherman.discord:
+    #image: 192.168.2.100:5000/weatherman/discord
+    environment:
+      Environment: "Development"
+      DBConnectionString: ""
+      DiscordToken: ""
+      DiscordClientId: ""
+      DiscordClientSecret: ""
+      DiscordBotName: ""
+      DiscordOwnerId: ""
+      YahooAppId: ""
+      YahooClientId: ""
+      YahooSecret: ""
+      DarkSkySecretKey: ""
+      HereAppId: ""
+      HereAppCode: ""
+    build:
+      context: ./
+      dockerfile: Weatherman-Discord.Dockerfile.debug
+    volumes:
+      - ./src/:/app
