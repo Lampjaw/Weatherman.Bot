@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weatherman.App.Services;
 using Weatherman.Domain;
+using Weatherman.Domain.Models;
 using static Weatherman.Domain.Models.ForecastWeather;
 
 namespace Weatherman.Discord.Commands
@@ -43,7 +44,7 @@ namespace Weatherman.Discord.Commands
                 ConvertToTempString(result.Temperature), result.Condition, ConvertToTempString(result.ForecastHigh), ConvertToTempString(result.ForecastLow));
 
             var embed = new EmbedBuilder()
-                .WithAuthor($"{result.Location.City}, {result.Location.Region} - {result.Location.Country}")
+                .WithAuthor(BuildLocationString(result.Location))
                 .WithColor(0x070707)
                 .WithDescription(description)
                 .AddField("Wind Speed", $"{result.WindSpeed:F1} MpH", true)
@@ -70,7 +71,7 @@ namespace Weatherman.Discord.Commands
             }
 
             var embedBuilder = new EmbedBuilder()
-                .WithAuthor($"{result.Location.City}, {result.Location.Region} - {result.Location.Country}")
+                .WithAuthor(BuildLocationString(result.Location))
                 .WithColor(0x070707);
 
             foreach(var day in result.Forecast.Take(5))
@@ -131,6 +132,14 @@ namespace Weatherman.Discord.Commands
         private double ConvertToCelsius(double temp)
         {
             return (temp - 32) / 1.8; ;
+        }
+
+        private string BuildLocationString(GeoLocation location)
+        {
+            var cityPart = string.IsNullOrWhiteSpace(location.City) ? "" : $"{location.City}, ";
+            var regionPart = string.IsNullOrWhiteSpace(location.Region) ? "" : $"{location.Region} - ";
+
+            return $"{cityPart}{regionPart}{location.Country}";
         }
     }
 }
