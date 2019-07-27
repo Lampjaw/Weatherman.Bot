@@ -14,8 +14,8 @@ namespace Weatherman.Discord
 
             services.AddSingleton<IDiscordClientManager, DiscordClientManager>();
             services.AddSingleton<IMessageProcessor, MessageProcessor>();
-
             services.AddSingleton<ICommandManager, CommandManager>();
+            services.AddSingleton<IWeatherLookupService, WeatherLookupService>();
 
             return services;
         }

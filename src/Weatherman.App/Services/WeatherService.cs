@@ -3,7 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Weatherman.App.Clients.DarkSky;
 using Weatherman.App.Clients.YahooWeather;
-using Weatherman.App.Models;
+using Weatherman.Domain;
+using Weatherman.Domain.Models;
 
 namespace Weatherman.App.Services
 {

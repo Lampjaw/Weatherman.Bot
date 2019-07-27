@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
-using Weatherman.App.Models;
+using Weatherman.Domain.Models;
 using Weatherman.Data.Repositories;
 
 namespace Weatherman.App.Services
@@ -27,12 +27,12 @@ namespace Weatherman.App.Services
 
         public Task UpdateUserHomeLocationAsync(string userId, GeoLocation location)
         {
-            return _repository.UpdateUserHomeLocationAsync(userId, location);
+            return _repository.UpsertUserHomeLocationAsync(userId, location);
         }
 
         public Task UpdateUserLastLocationAsync(string userId, GeoLocation location)
         {
-            return _repository.UpdateUserLastLocationAsync(userId, location);
+            return _repository.UpsertUserLastLocationAsync(userId, location);
         }
     }
 }

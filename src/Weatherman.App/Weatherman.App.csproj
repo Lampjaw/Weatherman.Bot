@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Weatherman.Data\Weatherman.Data.csproj" />
+    <ProjectReference Include="..\Weatherman.Domain\Weatherman.Domain.csproj" />
   </ItemGroup>
 
 </Project>

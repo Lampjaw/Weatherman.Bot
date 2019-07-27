@@ -38,7 +38,7 @@ namespace Weatherman.Data
 
             public void Dispose()
             {
-                _dbContext.Dispose();
+                _dbContext?.Dispose();
                 _scope.Dispose();
             }
         }

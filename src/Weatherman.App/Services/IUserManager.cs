@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Weatherman.App.Models;
+using Weatherman.Domain.Models;
 
 namespace Weatherman.App.Services
 {

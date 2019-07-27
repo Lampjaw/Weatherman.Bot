@@ -9,7 +9,7 @@ using System.Web;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using Weatherman.App.Models;
+using Weatherman.Domain.Models;
 
 namespace Weatherman.App.Clients.YahooWeather
 {

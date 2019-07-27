@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -30,17 +29,6 @@ namespace Weatherman.Data
             services.AddSingleton<IServerProfileRepository, ServerProfileRepository>();
 
             return services;
-        }
-
-        public static IApplicationBuilder InitializeDatabases(this IApplicationBuilder app)
-        {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<WeathermanDbContext>();
-                dbContext.Database.Migrate();
-            }
-
-            return app;
         }
     }
 }

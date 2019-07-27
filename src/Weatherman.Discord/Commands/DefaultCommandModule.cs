@@ -2,56 +2,36 @@
 using Discord.Commands;
 using System.Linq;
 using System.Threading.Tasks;
-using Weatherman.App;
-using Weatherman.App.Models;
 using Weatherman.App.Services;
-using static Weatherman.App.Models.ForecastWeather;
+using Weatherman.Domain;
+using static Weatherman.Domain.Models.ForecastWeather;
 
 namespace Weatherman.Discord.Commands
 {
     public class DefaultCommandModule : ModuleBase<SocketCommandContext>
     {
-        private const WeatherClient DEFAULT_APP = WeatherClient.DarkSky;
+        private const WeatherClient DEFAULT_WEATHER_CLIENT = WeatherClient.DarkSky;
 
-        private readonly IWeatherSearchService _weatherSearchService;
-        private readonly ILocationService _locationService;
-        private readonly IUserManager _userManager;
+        private readonly IWeatherLookupService _weatherLookupService;
         private readonly IServerManager _serverManager;
+        private readonly IUserManager _userManager;
+        private readonly ILocationService _locationService;
 
-        public DefaultCommandModule(IWeatherSearchService weatherSearchService, ILocationService locationService, IUserManager userManager, IServerManager serverManager)
+        public DefaultCommandModule(IWeatherLookupService weatherLookupService, IServerManager serverManager, IUserManager userManager, ILocationService locationService)
         {
-            _weatherSearchService = weatherSearchService;
-            _locationService = locationService;
-            _userManager = userManager;
+            _weatherLookupService = weatherLookupService;
             _serverManager = serverManager;
+            _userManager = userManager;
+            _locationService = locationService;
         }
 
         [Command("w")]
         [Summary("Get the current weather for a location")]
-        public async Task GetCurrentWeatherForecastAsync([Remainder] string location = null)
+        public async Task GetCurrentWeatherForecastAsync([Remainder] string locationText = null)
         {
             var userId = Context.User.Id.ToString();
-            CurrentWeather result;
 
-            if (string.IsNullOrWhiteSpace(location))
-            {
-                var userLocation = await _userManager.GetUsersDefaultLocationAsync(userId);
-                if (userLocation == null)
-                {
-                    await Context.Channel.SendMessageAsync("Please specify a location!");
-                    return;
-                }
-
-                result = await _weatherSearchService.GetCurrentWeatherByLocationTextAsync(userLocation, DEFAULT_APP);
-            } 
-            else
-            {
-                result = await _weatherSearchService.GetCurrentWeatherByLocationTextAsync(location, DEFAULT_APP);
-                if (result != null)
-                {
-                    await _userManager.UpdateUserLastLocationAsync(userId, result.Location);
-                }
-            }
+            var result = await _weatherLookupService.GetCurrentWeatherByLocationTextAsync(userId, locationText, DEFAULT_WEATHER_CLIENT);
 
             if (result == null)
             {
@@ -77,30 +57,11 @@ namespace Weatherman.Discord.Commands
 
         [Command("wf")]
         [Summary("Get the weather forecast for a location")]
-        public async Task GetFutureWeatherForecastAsync([Remainder] string location = null)
+        public async Task GetFutureWeatherForecastAsync([Remainder] string locationText = null)
         {
             var userId = Context.User.Id.ToString();
-            ForecastWeather result;
 
-            if (string.IsNullOrWhiteSpace(location))
-            {
-                var userLocation = await _userManager.GetUsersDefaultLocationAsync(userId);
-                if (userLocation == null)
-                {
-                    await Context.Channel.SendMessageAsync("Please specify a location!");
-                    return;
-                }
-
-                result = await _weatherSearchService.GetForecastWeatherByLocationTextAsync(userLocation, DEFAULT_APP);
-            }
-            else
-            {
-                result = await _weatherSearchService.GetForecastWeatherByLocationTextAsync(location, DEFAULT_APP);
-                if (result != null)
-                {
-                    await _userManager.UpdateUserLastLocationAsync(userId, result.Location);
-                }
-            }
+            var result = await _weatherLookupService.GetFutureWeatherByLocationTextAsync(userId, locationText, DEFAULT_WEATHER_CLIENT);
 
             if (result == null)
             {

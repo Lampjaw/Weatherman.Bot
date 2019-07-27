@@ -18,9 +18,8 @@ namespace Weatherman.Data.Repositories
         public async Task<string> GetUsersDefaultLocationAsync(string userId)
         {
             using (var factory = _dbContextHelper.GetFactory())
+            using (var dbContext = factory.GetDbContext())
             {
-                var dbContext = factory.GetDbContext();
-
                 var userProfile = await dbContext.UserProfiles.FirstOrDefaultAsync(a => a.Id == userId);
 
                 if (userProfile == null)
@@ -32,65 +31,50 @@ namespace Weatherman.Data.Repositories
             }
         }
 
-        public async Task UpdateUserLastLocationAsync(string userId, object locationObject)
+        public async Task UpsertUserLastLocationAsync(string userId, object locationObject)
         {
+            var serializedLocation = JToken.FromObject(locationObject).ToString();
+            var saveDate = DateTime.UtcNow;
+
             using (var factory = _dbContextHelper.GetFactory())
+            using (var dbContext = factory.GetDbContext())
             {
-                var dbContext = factory.GetDbContext();
-
-                var userProfile = await dbContext.UserProfiles.FirstOrDefaultAsync(a => a.Id == userId);
-
-                if (userProfile == null)
+                await dbContext.UserProfiles.Upsert(new UserProfile
                 {
-                    userProfile = new UserProfile
-                    {
-                        Id = userId,
-                        LastLocation = JToken.FromObject(locationObject).ToString(),
-                        LastLocationChangedDate = DateTime.UtcNow
-                    };
-
-                    dbContext.Add(userProfile);
-                    await dbContext.SaveChangesAsync();
-                    return;
-                }
-
-                userProfile.LastLocation = JToken.FromObject(locationObject).ToString();
-                userProfile.LastLocationChangedDate = DateTime.UtcNow;
-
-                dbContext.Update(userProfile);
-
-                await dbContext.SaveChangesAsync();
+                    Id = userId,
+                    LastLocation = serializedLocation,
+                    LastLocationChangedDate = saveDate
+                })
+                .On(a => a.Id)
+                .WhenMatched(a => new UserProfile
+                {
+                    LastLocation = serializedLocation,
+                    LastLocationChangedDate = saveDate
+                })
+                .RunAsync();
             }
         }
 
-        public async Task UpdateUserHomeLocationAsync(string userId, object locationObject)
+        public async Task UpsertUserHomeLocationAsync(string userId, object locationObject)
         {
+            var serializedLocation = JToken.FromObject(locationObject).ToString();
+
             using (var factory = _dbContextHelper.GetFactory())
+            using (var dbContext = factory.GetDbContext())
             {
-                var dbContext = factory.GetDbContext();
-
-                var userProfile = await dbContext.UserProfiles.FirstOrDefaultAsync(a => a.Id == userId);
-
-                if (userProfile == null)
+                await dbContext.UserProfiles.Upsert(new UserProfile
                 {
-                    userProfile = new UserProfile
-                    {
-                        Id = userId,
-                        HomeLocation = JToken.FromObject(locationObject).ToString(),
-                        HomeLocationChangedDate = DateTime.UtcNow
-                    };
-
-                    dbContext.Add(userProfile);
-                    await dbContext.SaveChangesAsync();
-                    return;
-                }
-
-                userProfile.HomeLocation = JToken.FromObject(locationObject).ToString();
-                userProfile.HomeLocationChangedDate = DateTime.UtcNow;
-
-                dbContext.Update(userProfile);
-
-                await dbContext.SaveChangesAsync();
+                    Id = userId,
+                    HomeLocation = serializedLocation,
+                    HomeLocationChangedDate = DateTime.UtcNow
+                })
+                .On(a => a.Id)
+                .WhenMatched(a => new UserProfile
+                {
+                    HomeLocation = serializedLocation,
+                    HomeLocationChangedDate = DateTime.UtcNow
+                })
+                .RunAsync();
             }
         }
     }

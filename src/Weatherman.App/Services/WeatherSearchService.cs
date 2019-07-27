@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Weatherman.App.Models;
+using Weatherman.Domain;
+using Weatherman.Domain.Models;
 
 namespace Weatherman.App.Services
 {
@@ -49,7 +50,9 @@ namespace Weatherman.App.Services
         public async Task<ForecastWeather> GetForecastWeatherByLocationTextAsync(GeoLocation location, WeatherClient weatherClient = WeatherClient.Yahoo, CancellationToken cancellationToken = default(CancellationToken))
         {
             var weather = await _weatherService.GetForecastWeatherAsync(location.Coordinates, weatherClient, cancellationToken);
+
             weather.Location = location;
+
             return weather;
         }
     }

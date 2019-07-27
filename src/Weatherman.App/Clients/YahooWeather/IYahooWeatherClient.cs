@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Weatherman.App.Models;
+using Weatherman.Domain.Models;
 
 namespace Weatherman.App.Clients.YahooWeather
 {

@@ -19,7 +19,7 @@ namespace Weatherman.App.Services
 
         public Task UpdateServerPrefixAsync(string guildId, string userId, string prefix)
         {
-            return _repository.UpdateServerPrefixAsync(guildId, userId, prefix);
+            return _repository.UpsertServerPrefixAsync(guildId, userId, prefix);
         }
     }
 }

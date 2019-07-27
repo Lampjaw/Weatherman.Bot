@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Weatherman.App.Models;
+using Weatherman.Domain.Models;
 using Weatherman.App.Utilities;
 
 namespace Weatherman.App.Clients.DarkSky

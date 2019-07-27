@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Weatherman.App.Models
+namespace Weatherman.Domain.Models
 {
     public class ForecastWeather
     {

@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using Weatherman.App.Models;
+using Weatherman.Domain.Models;
 
 namespace Weatherman.App.Clients.Here
 {

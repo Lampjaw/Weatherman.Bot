@@ -17,44 +17,34 @@ namespace Weatherman.Data.Repositories
         public async Task<string> GetServerPrefixAsync(string guildId)
         {
             using (var factory = _dbContextHelper.GetFactory())
+            using (var dbContext = factory.GetDbContext())
             {
-                var dbContext = factory.GetDbContext();
-
                 var result = await dbContext.ServerProfiles.FirstOrDefaultAsync(a => a.Id == guildId);
 
                 return result?.Prefix;
             }
         }
 
-        public async Task UpdateServerPrefixAsync(string guildId, string userId, string prefix)
+        public async Task UpsertServerPrefixAsync(string guildId, string userId, string prefix)
         {
             using (var factory = _dbContextHelper.GetFactory())
+            using (var dbContext = factory.GetDbContext())
             {
-                var dbContext = factory.GetDbContext();
-
-                var serverProfile = await dbContext.ServerProfiles.FirstOrDefaultAsync(a => a.Id == guildId);
-
-                if (serverProfile == null)
+                await dbContext.ServerProfiles.Upsert(new ServerProfile
                 {
-                    serverProfile = new ServerProfile
-                    {
-                        Id = guildId,
-                        LastChangedBy = userId,
-                        LastChangedDate = DateTime.UtcNow
-                    };
-
-                    dbContext.Add(serverProfile);
-                    await dbContext.SaveChangesAsync();
-                    return;
-                }
-
-                serverProfile.Prefix = prefix;
-                serverProfile.LastChangedBy = userId;
-                serverProfile.LastChangedDate = DateTime.UtcNow;
-
-                dbContext.Update(serverProfile);
-
-                await dbContext.SaveChangesAsync();
+                    Id = guildId,
+                    Prefix = prefix,
+                    LastChangedBy = userId,
+                    LastChangedDate = DateTime.UtcNow
+                })
+                .On(a => a.Id)
+                .WhenMatched(a => new ServerProfile
+                {
+                    Prefix = prefix,
+                    LastChangedBy = userId,
+                    LastChangedDate = DateTime.UtcNow
+                })
+                .RunAsync();
             }
         }
     }

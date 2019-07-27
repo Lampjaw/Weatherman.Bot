@@ -1,4 +1,4 @@
-﻿namespace Weatherman.App
+﻿namespace Weatherman.Domain
 {
     public enum WeatherClient
     {
