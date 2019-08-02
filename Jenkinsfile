@@ -16,7 +16,7 @@ TAGS="`curl -s --user ${REGISTRY_CRED} https://${REGISTRY}/v2/${REPOSITORY}/tags
 LATEST=`echo "${TAGS[*]}" | sort -nr | head -n1`
 BUILDTAG=$((LATEST + 1))
 
-docker build -t ${REGISTRY}/${REPOSITORY}:${BUILDTAG} -t ${REGISTRY}/${REPOSITORY}:latest .
+docker build -t ${REGISTRY}/${REPOSITORY}:${BUILDTAG} -t ${REGISTRY}/${REPOSITORY}:latest -f Weatherman-Discord.Dockerfile .
 
 docker push ${REGISTRY}/${REPOSITORY}:${BUILDTAG}
 docker push ${REGISTRY}/${REPOSITORY}:latest
