@@ -1,16 +1,12 @@
 pipeline {
   agent any
-  environment {
-    REGISTRY_USER = credentials('docker-registry-user')
-    REGISTRY_PASSWORD = credentials('docker-registry-password')
-  }
   stages {
     stage('BuildDeploy') {
       agent any
       steps {
         sh '''#!/bin/bash
 REGISTRY="docker.voidwell.com"
-REPOSITORY="voidwell/secureproxy1"
+REPOSITORY="weatherman/discord"
 REGISTRY_USER=$REGISTRY_USER
 REGISTRY_PASSWORD=$REGISTRY_PASSWORD
 
@@ -20,13 +16,17 @@ TAGS="`curl -s --user ${REGISTRY_CRED} https://${REGISTRY}/v2/${REPOSITORY}/tags
 LATEST=`echo "${TAGS[*]}" | sort -nr | head -n1`
 BUILDTAG=$((LATEST + 1))
 
-docker.exe build -t ${REGISTRY}/${REPOSITORY}:${BUILDTAG} -t ${REGISTRY}/${REPOSITORY}:latest .
+docker build -t ${REGISTRY}/${REPOSITORY}:${BUILDTAG} -t ${REGISTRY}/${REPOSITORY}:latest .
 
-docker.exe push ${REGISTRY}/${REPOSITORY}:${BUILDTAG}
-docker.exe push ${REGISTRY}/${REPOSITORY}:latest
+docker push ${REGISTRY}/${REPOSITORY}:${BUILDTAG}
+docker push ${REGISTRY}/${REPOSITORY}:latest
 
 echo -e "\\nCompleted ${REGISTRY}/${REPOSITORY}:${BUILDTAG}"'''
       }
     }
+  }
+  environment {
+    REGISTRY_USER = credentials('docker-registry-user')
+    REGISTRY_PASSWORD = credentials('docker-registry-password')
   }
 }
