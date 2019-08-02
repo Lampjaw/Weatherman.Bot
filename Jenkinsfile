@@ -1,5 +1,9 @@
 pipeline {
   agent any
+  environment {
+    REGISTRY_USER = credentials('docker-registry-user')
+    REGISTRY_PASSWORD = credentials('docker-registry-password')
+  }
   stages {
     stage('BuildDeploy') {
       agent any
