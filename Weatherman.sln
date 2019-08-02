@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29123.88
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weatherman.Discord", "src\Weatherman.Discord\Weatherman.Discord.csproj", "{166F7F0E-107F-4B0E-9A72-51367EFC4C5E}"
 EndProject
@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 		init-migrate.bat = init-migrate.bat
 		init-update.bat = init-update.bat
+		Jenkinsfile = Jenkinsfile
+		Weatherman-Discord.Dockerfile = Weatherman-Discord.Dockerfile
 		Weatherman-Discord.Dockerfile.debug = Weatherman-Discord.Dockerfile.debug
 	EndProjectSection
 EndProject
@@ -27,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weatherman.WebUI", "src\Wea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weatherman.App", "src\Weatherman.App\Weatherman.App.csproj", "{B87AF03F-8A0F-494F-A0FB-9F6FDCA35F9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weatherman.Domain", "src\Weatherman.Domain\Weatherman.Domain.csproj", "{E1B17F71-3756-4C74-A977-98BF409ED516}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weatherman.Domain", "src\Weatherman.Domain\Weatherman.Domain.csproj", "{E1B17F71-3756-4C74-A977-98BF409ED516}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
