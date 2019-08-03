@@ -23,17 +23,30 @@ REGISTRY_USER=$REGISTRY_USER
 REGISTRY_PASSWORD=$REGISTRY_PASSWORD
 
 REGISTRY_CRED="${REGISTRY_USER}:${REGISTRY_PASSWORD}"
+REPO_LABEL=${REGISTRY}/${REPOSITORY}
 
 TAGS="`curl -s --user ${REGISTRY_CRED} https://${REGISTRY}/v2/${REPOSITORY}/tags/list | jq -r \'.tags\' | sed \'s/[^0-9]*//g\'`"
 LATEST=`echo "${TAGS[*]}" | sort -nr | head -n1`
 BUILDTAG=$((LATEST + 1))
 
-docker tag ${REGISTRY}/${REPOSITORY}:latest ${REGISTRY}/${REPOSITORY}:${BUILDTAG}
+docker tag ${REPO_LABEL}:latest ${REPO_LABEL}:${BUILDTAG}
 
-docker push ${REGISTRY}/${REPOSITORY}:${BUILDTAG}
-docker push ${REGISTRY}/${REPOSITORY}:latest
+docker push ${REPO_LABEL}:${BUILDTAG}
+docker push ${REPO_LABEL}:latest
 
-echo -e "\\nPushed ${REGISTRY}/${REPOSITORY}:${BUILDTAG}"'''
+echo export "${REPO_LABEL}:${BUILDTAG}" > buildlabel
+echo -e "\\nPushed ${REPO_LABEL}:${BUILDTAG}"'''
+      }
+    }
+    stage('Deploy') {
+      steps {
+        sh '''#!/bin/bash
+COMPOSE_PATH=$COMPOSE_PATH
+
+BUILD_LABEL=readFile(\'buildlabel\').trim()
+
+echo ${COMPOSE_PATH}
+echo ${BUILD_LABEL}'''
       }
     }
   }
@@ -43,5 +56,6 @@ echo -e "\\nPushed ${REGISTRY}/${REPOSITORY}:${BUILDTAG}"'''
     REGISTRY_ENDPOINT = 'docker.voidwell.com'
     REPOSITORY = 'weatherman/discord'
     DOCKERFILE_PATH = 'Weatherman-Discord.Dockerfile'
+    COMPOSE_PATH = '/docker-configs/weatherman/docker-compose.yml'
   }
 }
