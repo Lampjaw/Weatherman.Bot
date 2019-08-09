@@ -6,6 +6,8 @@ Weatherman is a discord bot that keeps track of the weather
 
 Just go to this link! [https://discordapp.com/oauth2/authorize?client_id=602665053220503567&scope=bot](https://discordapp.com/oauth2/authorize?client_id=602665053220503567&scope=bot)
 
+**Must have Embed links permissions!**
+
 ## Commands
 
 `?w <location>` Returns the current conditions for a location    
