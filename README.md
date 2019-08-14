@@ -1,3 +1,6 @@
+# This repository is no longer supported. Please see the latest Weatherman implementation at [https://github.com/lampjaw/weatherman](https://github.com/lampjaw/weatherman)
+
+
 # Weatherman
 
 Weatherman is a discord bot that keeps track of the weather
